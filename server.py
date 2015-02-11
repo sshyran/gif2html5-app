@@ -23,7 +23,7 @@ def upload():
 
 @app.route("/")
 def tryme():
-    return render_template('hello.html')
+    return render_template('tryout.html')
 
 if __name__ == "__main__":
     app.run()
