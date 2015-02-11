@@ -16,8 +16,8 @@ def upload():
 
     video = VideoFileClip("/tmp/movie.gif")
 
-    result = CompositeVideoClip([video]) # Overlay text on video
-    result.write_videofile("/tmp/movie.mp4") # Many options...
+    result = CompositeVideoClip([video])
+    result.write_videofile("/tmp/movie.mp4")
 
     return 'Upload successful'
 
