@@ -49,7 +49,7 @@ def convert():
 
     s3Manager.upload(random_filename, random_movie_name)
 
-    return random_movie_name
+    return "https://s3.amazonaws.com/fusion-gif2html5-mp4/%s" %s (random_filename)
 
 if __name__ == "__main__":
     app.run()
