@@ -8,7 +8,7 @@ class S3Tests(unittest.TestCase):
         aws_access = os.environ.get('AWS_ACCESS_KEY_ID')
         aws_secret = os.environ.get('AWS_SECRET_ACCESS_KEY')
         self.s3Manager = S3Manager(aws_access, aws_secret)
-
+    
     def test_upload_gif(self):
         f = open('resources/test.gif', 'r')
         random_filename = binascii.b2a_hex(os.urandom(15))
