@@ -9,6 +9,6 @@ class S3Manager:
     def upload(self, filename, filepath):
         fusion_mp4 = self.conn.get_bucket('fusion-gif2html5-mp4')
 
-        k = Key(b)
+        k = Key(filename)
         k.key = filename
         k.set_contents_from_filename(filepath)
