@@ -28,6 +28,14 @@ To run Glance locally:
 make run
 ```
 
+## How to use
+Right now, we make it as simple as possible, once you deploy the app you can just go
+```shell
+curl http://localhost:8000/convert?url=http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif
+```
+
+The gif will be downloaded, processed and uploaded to Amazon S3
+
 ## Testing
 To run test:
 
