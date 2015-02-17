@@ -42,3 +42,10 @@ To run test:
 ```shell
 make test
 ```
+
+## How to deploy to Heroku
+1. Please download and install. [Heroku Toolbelt](https://devcenter.heroku.com/articles/getting-started-with-python#set-up)
+2. Run `heroku login` to login
+3. Run `heroku create` to create a box
+4. Then push the code to heroku by doing `git push heroku master`
+4. Add AWS key by running `heroku config:set AWS_ACCESS_KEY_ID=YOUR_KEY` and `heroku config:set AWS_SECRET_ACCESS_KEY=YOUR_ACCESS`
