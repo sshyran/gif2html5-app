@@ -6,10 +6,7 @@ import os
 
 class S3Tests(unittest.TestCase):
     def setUp(self):
-        config = get_config()
-        aws_access = config.get("AWS_ACCESS_KEY_ID")
-        aws_secret = config.get("AWS_SECRET_ACCESS_KEY")
-        self.s3Manager = S3Manager(aws_access, aws_secret)
+        self.s3Manager = S3Manager(get_config())
 
     def test_convert_gif(self):
         filepath = "tests/resources/test.gif"

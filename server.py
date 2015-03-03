@@ -10,10 +10,7 @@ app.debug = True
 
 @app.route("/convert", methods=["GET"])
 def convert():
-    config = get_config()
-    aws_access = config.get('AWS_ACCESS_KEY_ID')
-    aws_secret = config.get('AWS_SECRET_ACCESS_KEY')
-    s3Manager = S3Manager(aws_access, aws_secret)
+    s3Manager = S3Manager(get_config())
 
     random_filename = binascii.b2a_hex(os.urandom(15))
     random_snapshot_filename = binascii.b2a_hex(os.urandom(15))

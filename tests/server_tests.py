@@ -22,10 +22,7 @@ class FlaskrTestCase(unittest.TestCase):
 
 		file_to_delete = data['mp4'].split('/')[-1]
 
-		config = get_config()
-		aws_access = config.get("AWS_ACCESS_KEY_ID")
-		aws_secret = config.get("AWS_SECRET_ACCESS_KEY")
-		s3Manager = S3Manager(aws_access, aws_secret)
+		s3Manager = S3Manager(get_config())
 		s3Manager.delete(file_to_delete)
 
 
