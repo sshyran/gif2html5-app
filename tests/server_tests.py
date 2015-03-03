@@ -14,7 +14,10 @@ class FlaskrTestCase(TestContext):
 		self.app = server.app.test_client()
 
 	def test_getting_mp4(self):
-		response = self.app.get('/convert?url=http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif')
+		payload = {'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif'}
+		
+		response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
+
 		self.assertEqual(response.status_code, 200)
 
 		data = json.loads(response.data)

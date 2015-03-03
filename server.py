@@ -5,18 +5,19 @@ from src.config_parser import get_config
 from src.video_manager import VideoManager
 import urllib2
 import os,binascii
+import json
 
 app = Flask(__name__)
 app.debug = True
 
-@app.route("/convert", methods=["GET"])
+@app.route("/convert", methods=["POST"])
 def convert():
     s3Manager = S3Manager(get_config())
 
-    url = request.args.get("url", "")
+    url = json.loads(request.data)['url']
 
     gif_filepath = saving_to_local(url)
-    
+
     result = VideoManager().convert(gif_filepath)
 
     s3_path_to_mp4 = s3Manager.upload(result.mp4, "./tmp/%s" % result.mp4)
