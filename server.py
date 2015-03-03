@@ -16,6 +16,8 @@ def convert():
     s3Manager = S3Manager(aws_access, aws_secret)
 
     random_filename = binascii.b2a_hex(os.urandom(15))
+    random_snapshot_filename = binascii.b2a_hex(os.urandom(15))
+    saving_snapshot_filename = "./tmp/%s.png" % random_snapshot_filename
     url = request.args.get("url", "")
     response = urllib2.urlopen(url)
     contents = response.read()
@@ -26,13 +28,15 @@ def convert():
     f.close()
 
     video = VideoFileClip(saving_name)
+    video.save_frame(saving_snapshot_filename)
 
     result = CompositeVideoClip([video])
     random_movie_name = "./tmp/%s.mp4" % (random_filename)
     result.write_videofile(random_movie_name)
     s3_path_to_mp4 = s3Manager.upload(random_filename, random_movie_name)
+    s3_path_to_png = s3Manager.upload(random_snapshot_filename, saving_snapshot_filename)
 
-    return jsonify(mp4=s3_path_to_mp4)
+    return jsonify(mp4=s3_path_to_mp4, snapshot=s3_path_to_png)
 
 if __name__ == "__main__":
     app.run()

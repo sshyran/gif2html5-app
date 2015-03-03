@@ -18,6 +18,7 @@ class FlaskrTestCase(unittest.TestCase):
 
 		data = json.loads(response.data)
 		self.assertRegexpMatches(data['mp4'], 'https://s3.amazonaws.com/fusion-gif2html5-mp4')
+		self.assertRegexpMatches(data['snapshot'], 'https://s3.amazonaws.com/fusion-gif2html5-mp4')
 
 		file_to_delete = data['mp4'].split('/')[-1]
 
