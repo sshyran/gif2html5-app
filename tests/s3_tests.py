@@ -1,10 +1,12 @@
 from src.s3_manager import S3Manager
 from src.config_parser import get_config
+from tests.test_context import TestContext
+
 import os,binascii
 import unittest
 import os
 
-class S3Tests(unittest.TestCase):
+class S3Tests(TestContext):
     def setUp(self):
         self.s3Manager = S3Manager(get_config())
 

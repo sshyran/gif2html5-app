@@ -1,9 +1,10 @@
 from src.video_manager import VideoManager
+from tests.test_context import TestContext
 
 import unittest
 import os
 
-class VideoManagerTests(unittest.TestCase):
+class VideoManagerTests(TestContext):
     def setUp(self):
         self.videoManager = VideoManager()
 
@@ -14,3 +15,6 @@ class VideoManagerTests(unittest.TestCase):
 
         self.assertRegexpMatches(result.mp4, 'test.mp4')
         self.assertRegexpMatches(result.snapshot, 'test.png')
+
+if __name__ == '__main__':
+    unittest.main()

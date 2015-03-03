@@ -5,8 +5,9 @@ import tempfile
 from flask import json, jsonify
 from src.config_parser import get_config
 from src.s3_manager import S3Manager
+from tests.test_context import TestContext
 
-class FlaskrTestCase(unittest.TestCase):
+class FlaskrTestCase(TestContext):
 
 	def setUp(self):
 		server.app.config['TESTING'] = True
