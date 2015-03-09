@@ -6,6 +6,7 @@ from src.video_manager import VideoManager
 import urllib2
 import os,binascii
 import json
+import requests
 
 app = Flask(__name__)
 app.debug = True
@@ -13,6 +14,13 @@ app.debug = True
 @app.route("/convert", methods=["POST"])
 def convert():
     s3Manager = S3Manager(get_config())
+
+    if not request.data:
+        return 'Error', 406
+
+    json_request = json.loads(request.data);
+    if 'url' not in json_request:
+        return 'url property is not present in the payload', 406
 
     url = json.loads(request.data)['url']
 
@@ -22,6 +30,12 @@ def convert():
 
     s3_path_to_mp4 = s3Manager.upload(result.mp4, "./tmp/%s" % result.mp4)
     s3_path_to_png = s3Manager.upload(result.snapshot, "./tmp/%s" % result.snapshot)
+
+    if 'webhook' in json_request:
+        webhook = json.loads(request.data)['webhook']
+
+        payload = {'mp4': s3_path_to_mp4, 'snapshot': s3_path_to_png}
+        requests.post(webhook, data=payload)
 
     return jsonify(mp4=s3_path_to_mp4, snapshot=s3_path_to_png)
 

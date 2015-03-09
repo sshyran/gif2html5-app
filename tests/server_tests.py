@@ -15,7 +15,7 @@ class FlaskrTestCase(TestContext):
 
 	def test_getting_mp4(self):
 		payload = {'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif'}
-		
+
 		response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
 
 		self.assertEqual(response.status_code, 200)
@@ -28,6 +28,19 @@ class FlaskrTestCase(TestContext):
 
 		s3Manager = S3Manager(get_config())
 		s3Manager.delete(file_to_delete)
+
+	def test_getting_mp4_without_payload(self):
+		response = self.app.post('/convert', follow_redirects = True)
+
+		self.assertEqual(response.status_code, 406)
+
+	def test_webhook(self):
+		payload = {'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'webhook' : 'http://www.google.com'}
+
+		response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
+
+		self.assertEqual(response.status_code, 200)
+
 
 
 
