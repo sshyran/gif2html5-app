@@ -44,13 +44,13 @@ class FlaskrTestCase(TestContext):
 		self.assertEqual(response.status_code, 406)
 
 	def test_webhook(self):
-		requests.post = MagicMock()
+		server.convert_video.delay = MagicMock()
 		payload = {'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'webhook' : 'http://www.google.com'}
 
 		response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
 
 		self.assertEqual(response.status_code, 200)
-		requests.post.assert_called_with('http://www.google.com', data=ANY)
+		server.convert_video.delay.assert_called_with(ANY, 'http://www.google.com')
 
 
 if __name__ == '__main__':

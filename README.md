@@ -41,7 +41,7 @@ make run
 ## How to use
 Right now, we make it as simple as possible, once you deploy the app you can just go
 ```shell
-curl http://localhost:8000/convert?url=http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif
+curl -H "Content-Type: application/json" -d '{"url":"http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif", "webhook":"http://google.com" }' http://localhost:5000/convert
 ```
 
 The gif will be downloaded, processed and uploaded to Amazon S3

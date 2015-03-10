@@ -2,4 +2,4 @@ test:
 	nosetests
 
 run:
-	gunicorn server:app
+	foreman start
