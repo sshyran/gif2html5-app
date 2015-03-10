@@ -1,6 +1,8 @@
 language: python
 python:
 - '2.7'
+
+cache: pip
 env:
   global:
   - REDISTOGO_URL=redis://localhost:6379
