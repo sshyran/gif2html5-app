@@ -1,3 +1,5 @@
+![Build Status](https://magnum.travis-ci.com/fusioneng/gif2html5-app.svg?token=qjLxqTcR19p9TfqYJxuN&branch=master)
+
 # Gif -> HTML5
 
 Gif2HTML5 is a free and open-source to convert gif to mp4 so it can be embedded in a website. HTML5 video will reduce the bandwidth used to load the page. As mp4 is significantly smaller than Gif
@@ -32,19 +34,27 @@ redis-server /usr/local/etc/redis.conf
 ```
 
 ## Running Gif2HTML5
-To run Glance locally:
+To run Gif2HTML5 locally:
 
 ```shell
 make run
 ```
 
 ## How to use
-Right now, we make it as simple as possible, once you deploy the app you can just go
+Right now, we make it as simple as possible, once you deploy the app you can just do
 ```shell
-curl -H "Content-Type: application/json" -d '{"url":"http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif", "webhook":"http://google.com" }' http://localhost:5000/convert
+curl -H "Content-Type: application/json" -d '{"url":"http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif"}' http://localhost:5000/convert
 ```
 
 The gif will be downloaded, processed and uploaded to Amazon S3
+
+## Webhook
+If you want to convert the video asynchronously you can provide webhook in the JSON. The application will return right away and webhook will be called once the video is ready.
+
+```shell
+curl -H "Content-Type: application/json" -d '{"url":"http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif", "webhook":"http://google.com"}' http://localhost:5000/convert
+
+```
 
 ## Testing
 To run test:
