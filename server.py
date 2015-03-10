@@ -18,7 +18,13 @@ def convert():
     if not request.data:
         return 'Error', 406
 
-    json_request = json.loads(request.data);
+    json_request = None
+
+    try:
+        json_request = json.loads(request.data)
+    except ValueError, e:
+        return 'JSON is not correct please check again', 406
+
     if 'url' not in json_request:
         return 'url property is not present in the payload', 406
 
