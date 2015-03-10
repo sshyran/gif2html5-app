@@ -18,8 +18,6 @@ class VideoManager:
 
         video = VideoFileClip(gif_path)
         video.save_frame(saving_snapshot_filename)
-
-        result = CompositeVideoClip([video])
-        result.write_videofile(saving_mp4_filename)
+        video.write_videofile(saving_mp4_filename)
 
         return Result(mp4_file, snapshot_file)
