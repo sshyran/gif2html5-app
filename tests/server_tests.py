@@ -52,6 +52,14 @@ class FlaskrTestCase(TestContext):
 		self.assertEqual(response.status_code, 200)
 		server.convert_video.delay.assert_called_with(ANY, 'http://www.google.com')
 
+	def test_video_converter_task(self):
+		requests.post = MagicMock()
+		filepath = "tests/resources/test.gif"
+		server.convert_video.apply(args=(filepath, 'http://www.google.com')).get()
+
+		requests.post.assert_called_with('http://www.google.com', data=ANY)
+
+
 
 if __name__ == '__main__':
     unittest.main()
