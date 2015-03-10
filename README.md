@@ -21,6 +21,16 @@ AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 ```
 
+You will need Redis for queue system. To install Redis please run
+```
+brew install redis
+```
+
+and to start redis please run
+```
+redis-server /usr/local/etc/redis.conf
+```
+
 ## Running Gif2HTML5
 To run Glance locally:
 
