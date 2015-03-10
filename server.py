@@ -33,7 +33,8 @@ app.config.update(
 celery = make_celery(app)
 
 @celery.task()
-def convert_video(gif_filepath, webhook):
+def convert_video(gif_url, webhook):
+    gif_filepath = saving_to_local(gif_url)
     result = VideoManager().convert(gif_filepath)
 
     s3_path_to_mp4 = s3Manager.upload(result.mp4, "./tmp/%s" % result.mp4)
@@ -59,13 +60,12 @@ def convert():
 
     url = json.loads(request.data)['url']
 
-    gif_filepath = saving_to_local(url)
-
     if 'webhook' in json_request:
         webhook = json.loads(request.data)['webhook']
-        result = convert_video.delay(gif_filepath, webhook)
+        result = convert_video.delay(url, webhook)
         return 'Success', 200
     else:
+        gif_filepath = saving_to_local(url)
         result = VideoManager().convert(gif_filepath)
         s3_path_to_mp4 = s3Manager.upload(result.mp4, "./tmp/%s" % result.mp4)
         s3_path_to_png = s3Manager.upload(result.snapshot, "./tmp/%s" % result.snapshot)

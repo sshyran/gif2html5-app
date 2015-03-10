@@ -54,8 +54,7 @@ class FlaskrTestCase(TestContext):
 
 	def test_video_converter_task(self):
 		requests.post = MagicMock()
-		filepath = "tests/resources/test.gif"
-		server.convert_video.apply(args=(filepath, 'http://www.google.com')).get()
+		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com')).get()
 
 		requests.post.assert_called_with('http://www.google.com', data=ANY)
 
