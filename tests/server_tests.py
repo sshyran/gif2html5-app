@@ -9,6 +9,13 @@ from tests.test_context import TestContext
 from mock import MagicMock, ANY
 import requests
 
+class JsonPayloadAttachmentIdMatcher(object):
+	def __init__(self, o):
+		self.o = o
+
+	def __eq__(self, o):
+		return o['attachment_id'] == '123'
+
 class FlaskrTestCase(TestContext):
 
 	def setUp(self):
@@ -54,11 +61,11 @@ class FlaskrTestCase(TestContext):
 
 	def test_video_converter_task(self):
 		requests.post = MagicMock()
-		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com')).get()
+		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com?attachment_id=123')).get()
 
-		requests.post.assert_called_with('http://www.google.com', data=ANY)
+		payload = {'attachment_id' : '123'}
 
-
+		requests.post.assert_called_with('http://www.google.com?attachment_id=123', data=JsonPayloadAttachmentIdMatcher(payload))
 
 if __name__ == '__main__':
     unittest.main()
