@@ -15,5 +15,6 @@ script: make test
 deploy:
   provider: heroku
   app: gif2html5
+  skip_cleanup: true
   api_key:
     secure: Fjtdzr/e2PRv7cRMRFhU0PgDok2NASskql+YuL8uUJdSeyFGX3JzWpDW7LKjwtFuQ5Se7zFMC2AFex/Pct6a9lY9iqCPQxiiA8Y1rJdIus0PsxOQOD0W3xl8u2mtz75jhpWA75fFM5ilDz/tw7iE/sVWPMB/CfTSvo6TEYB9H78=
