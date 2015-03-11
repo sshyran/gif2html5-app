@@ -67,5 +67,12 @@ class FlaskrTestCase(TestContext):
 
 		requests.post.assert_called_with('http://www.google.com?attachment_id=123', data=JsonPayloadAttachmentIdMatcher(payload))
 
+	def test_video_converter_task_without_attachment_id(self):
+		requests.post = MagicMock()
+
+		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com')).get()
+
+		requests.post.assert_called_with('http://www.google.com', data={'message' : 'It looks like you are missing attachment_id'})
+
 if __name__ == '__main__':
     unittest.main()

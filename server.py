@@ -36,16 +36,23 @@ celery = make_celery(app)
 @celery.task()
 def convert_video(gif_url, webhook):
     parsed = urlparse.urlparse(webhook)
-    attachment_id = urlparse.parse_qs(parsed.query)['attachment_id'][0]
 
-    gif_filepath = saving_to_local(gif_url)
-    result = VideoManager().convert(gif_filepath)
+    if parsed.query:
+        queries = urlparse.parse_qs(parsed.query)
+        if 'attachment_id' in queries:
+            attachment_id = queries['attachment_id'][0]
+            gif_filepath = saving_to_local(gif_url)
+            result = VideoManager().convert(gif_filepath)
 
-    s3_path_to_mp4 = s3Manager.upload(result.mp4, "./tmp/%s" % result.mp4)
-    s3_path_to_png = s3Manager.upload(result.snapshot, "./tmp/%s" % result.snapshot)
+            s3_path_to_mp4 = s3Manager.upload(result.mp4, "./tmp/%s" % result.mp4)
+            s3_path_to_png = s3Manager.upload(result.snapshot, "./tmp/%s" % result.snapshot)
 
-    payload = {'mp4': s3_path_to_mp4, 'snapshot': s3_path_to_png, 'attachment_id': attachment_id}
-    requests.post(webhook, data=payload)
+            payload = {'mp4': s3_path_to_mp4, 'snapshot': s3_path_to_png, 'attachment_id': attachment_id}
+            requests.post(webhook, data=payload)
+            return
+
+
+    requests.post(webhook, data={'message' : 'It looks like you are missing attachment_id' })
 
 @app.route("/convert", methods=["POST"])
 def convert():
