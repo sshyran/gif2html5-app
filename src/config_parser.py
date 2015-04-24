@@ -6,7 +6,9 @@ from ConfigParser import ConfigParser
 from StringIO import StringIO
 
 def parse_config(raw):
-    config = _config = ConfigParser()
+    config = _config = ConfigParser(defaults={
+        'GIF2HTML5_API_KEY': None,
+    })
     if raw.strip().startswith('['):
         config.readfp(StringIO(raw))
     else:
