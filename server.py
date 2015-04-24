@@ -30,7 +30,7 @@ app = Flask(__name__)
 app.config.update(
     CELERY_BROKER_URL=config.get('REDISTOGO_URL'),
     CELERY_RESULT_BACKEND=config.get('REDISTOGO_URL'),
-    API_KEY=config.get('API_KEY'),
+    API_KEY=config.get('GIF2HTML5_API_KEY'),
 )
 celery = make_celery(app)
 
