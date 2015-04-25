@@ -23,6 +23,14 @@ AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 ```
 
+If you want to secure the conversion endpoint with a secret key. Add a `GIF2HTML5_API_KEY` setting:
+
+```
+GIF2HTML5_API_KEY=
+```
+
+If you specify an API key, then all POST requests will need to include an `api_key` field with the same value.
+
 You will need Redis for queue system. To install Redis please run
 ```
 brew install redis

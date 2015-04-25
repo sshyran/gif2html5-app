@@ -29,7 +29,8 @@ app = Flask(__name__)
 # app.debug = True
 app.config.update(
     CELERY_BROKER_URL=config.get('REDISTOGO_URL'),
-    CELERY_RESULT_BACKEND=config.get('REDISTOGO_URL')
+    CELERY_RESULT_BACKEND=config.get('REDISTOGO_URL'),
+    API_KEY=config.get('GIF2HTML5_API_KEY'),
 )
 celery = make_celery(app)
 
@@ -65,6 +66,10 @@ def convert():
         json_request = json.loads(request.data)
     except ValueError, e:
         return 'JSON is not correct please check again', 406
+
+    if app.config.get('API_KEY'):
+        if json_request.get('api_key') != app.config.get('API_KEY'):
+            return 'Unauthorized', 401
 
     if 'url' not in json_request:
         return 'url property is not present in the payload', 406

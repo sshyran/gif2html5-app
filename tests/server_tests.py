@@ -9,6 +9,7 @@ from tests.test_context import TestContext
 from mock import MagicMock, ANY
 import requests
 
+
 class JsonPayloadAttachmentIdMatcher(object):
 	def __init__(self, o):
 		self.o = o
@@ -16,14 +17,26 @@ class JsonPayloadAttachmentIdMatcher(object):
 	def __eq__(self, o):
 		return o['attachment_id'] == '123'
 
-class FlaskrTestCase(TestContext):
+
+class FlaskTestCase(TestContext):
 
 	def setUp(self):
 		server.app.config['TESTING'] = True
+		server.app.config['API_KEY'] = '123456'
 		self.app = server.app.test_client()
 
+	def test_authentication(self):
+		payload = {
+			'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif',
+		}
+		response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
+		self.assertEqual(response.status_code, 401)
+
 	def test_getting_mp4(self):
-		payload = {'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif'}
+		payload = {
+			'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif',
+			'api_key': '123456',
+		}
 
 		response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
 
@@ -52,7 +65,11 @@ class FlaskrTestCase(TestContext):
 
 	def test_webhook(self):
 		server.convert_video.delay = MagicMock()
-		payload = {'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'webhook' : 'http://www.google.com'}
+		payload = {
+			'api_key': '123456',
+			'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif',
+			'webhook' : 'http://www.google.com',
+		}
 
 		response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
 
