@@ -16,7 +16,7 @@ class S3Tests(TestContext):
         random_filename = binascii.b2a_hex(os.urandom(15))
 
         s3_path = self.s3Manager.upload(random_filename, filepath)
-        expected_filepath = "https://s3.amazonaws.com/fusion-gif2html5-mp4/%s" % (random_filename)
+        expected_filepath = "https://s3.amazonaws.com/fusion-gif2html5-mp4-test/%s" % (random_filename)
         self.assertEquals(expected_filepath, s3_path)
 
         self.s3Manager.delete(random_filename)
