@@ -6,7 +6,6 @@ cache: pip
 env:
   global:
   - REDISTOGO_URL=redis://localhost:6379
-  - secure: nINFwmFXpgVMzIxVstCJE3EM872iOwL0w0rix1WYTCEucR7BZBf4hML1vZaWGEZUJt7YQftBgoql222yEHIaxNSW0jUa4n0WYYEIFcxhH3KFAuJO4v1lv/Ms6TnHkoGqzOnOClH+wp84cgd0nfXuUzHMYPaHAbQhPYr288AHlMw=
   - secure: NTvqiAz8+qGwOCweP/OCW7jW90rCfE3l4rXqXU0dbQ5MXWjaVyk6FAJeiL3g8pOkbASK4zhAENmoGp8nk2hmZIUi2eoKAvh/CoZl1+6IGwgkIafGnwRASSKtl4GT1Zlc5mPkPnUnPLxjJofB3FlSYrrE5zvkOQc82uZu+t4CM1c=
 
 install: pip install -r requirements.txt
