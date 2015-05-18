@@ -6,8 +6,6 @@ cache: pip
 env:
   global:
   - REDISTOGO_URL=redis://localhost:6379
-  - secure: nINFwmFXpgVMzIxVstCJE3EM872iOwL0w0rix1WYTCEucR7BZBf4hML1vZaWGEZUJt7YQftBgoql222yEHIaxNSW0jUa4n0WYYEIFcxhH3KFAuJO4v1lv/Ms6TnHkoGqzOnOClH+wp84cgd0nfXuUzHMYPaHAbQhPYr288AHlMw=
-  - secure: NTvqiAz8+qGwOCweP/OCW7jW90rCfE3l4rXqXU0dbQ5MXWjaVyk6FAJeiL3g8pOkbASK4zhAENmoGp8nk2hmZIUi2eoKAvh/CoZl1+6IGwgkIafGnwRASSKtl4GT1Zlc5mPkPnUnPLxjJofB3FlSYrrE5zvkOQc82uZu+t4CM1c=
 
 install: pip install -r requirements.txt
 script: make test
@@ -16,5 +14,4 @@ deploy:
   provider: heroku
   app: gif2html5
   skip_cleanup: true
-  api_key:
-    secure: Fjtdzr/e2PRv7cRMRFhU0PgDok2NASskql+YuL8uUJdSeyFGX3JzWpDW7LKjwtFuQ5Se7zFMC2AFex/Pct6a9lY9iqCPQxiiA8Y1rJdIus0PsxOQOD0W3xl8u2mtz75jhpWA75fFM5ilDz/tw7iE/sVWPMB/CfTSvo6TEYB9H78=
+  api_key: $HEROKU_API_KEY
