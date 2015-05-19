@@ -23,6 +23,7 @@ AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
 REDISTOGO_URL=
 BUCKET=
+FOLDER=
 ```
 
 If you want to secure the conversion endpoint with a secret key. Add a `GIF2HTML5_API_KEY` setting:
@@ -78,5 +79,5 @@ make test
 2. Run `heroku login` to login
 3. Run `heroku create` to create a box
 4. Then push the code to heroku by doing `git push heroku master`
-5. Add AWS key by running `heroku config:set AWS_ACCESS_KEY_ID=YOUR_KEY` and `heroku config:set AWS_SECRET_ACCESS_KEY=YOUR_ACCESS` and `heroku config:set BUCKET=YOURBUCKET`
+5. Add AWS key by running `heroku config:set AWS_ACCESS_KEY_ID=YOUR_KEY` and `heroku config:set AWS_SECRET_ACCESS_KEY=YOUR_ACCESS` and `heroku config:set BUCKET=YOURBUCKET` and `heroku config:set FOLDER=YOURFOLDER`
 6. Add API_KEY by running `heroku config:set GIF2HTML5_API_KEY=YOURGIF2HTML5_API_KEY`
