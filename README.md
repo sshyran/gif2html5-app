@@ -81,3 +81,5 @@ make test
 4. Then push the code to heroku by doing `git push heroku master`
 5. Add AWS key by running `heroku config:set AWS_ACCESS_KEY_ID=YOUR_KEY` and `heroku config:set AWS_SECRET_ACCESS_KEY=YOUR_ACCESS` and `heroku config:set BUCKET=YOURBUCKET` and `heroku config:set FOLDER=YOURFOLDER`
 6. Add API_KEY by running `heroku config:set GIF2HTML5_API_KEY=YOURGIF2HTML5_API_KEY`
+7. You're going to need Redis Addon by running `heroku addons:create redistogo`
+8. You're going to need at least one worker and one web by running `heroku ps:scale web=1 worker=1`
