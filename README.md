@@ -1,8 +1,11 @@
+GIF2HTML5 App
+=============
+
 ![Build Status](https://magnum.travis-ci.com/fusioneng/gif2html5-app.svg?token=qjLxqTcR19p9TfqYJxuN&branch=master)
 
-# Gif -> HTML5
+GIF2HTML5 is a free and open source Python application to convert GIFs to MP4 videos and image keyframes. These files are automatically pushed to S3, and then reported to the CMS.
 
-Gif2HTML5 is a free and open-source to convert gif to mp4 so it can be embedded in a website. HTML5 video will reduce the bandwidth used to load the page. As mp4 is significantly smaller than Gif
+GIF isn't intended as a looping video format, but most of the web uses it as such. Serving GIFs transparently as HTML5 video significantly improves page performance while achieving the same comical effect of the GIF.
 
 ## Architecture
 Gif2HTML5 is python application built on Flask. Currently, it deploys to Heroku but it can be deployed on any platforms as needed.
