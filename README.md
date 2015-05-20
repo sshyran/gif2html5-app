@@ -14,9 +14,11 @@ Gif2HTML5 is python application built on Flask. Currently, it deploys to Heroku 
 To run locally, make sure you have the [pip][pip] installed, the package managers for Python. Then do:
 
 ```shell
-# install the requirements
+# Install the requirements
 pip install --requirement requirements.txt
 ```
+
+If you're a Python newbie, it's much easier to run Python applications inside of a virtual environment. With [virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/#introduction), it's as easy as `mkvirtualenv gif2html5` and `workon gif2html5`.
 
 You'll need a number of environment variables present. Please put these in `.env`, using this as a template:
 
