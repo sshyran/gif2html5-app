@@ -1,7 +1,7 @@
 GIF2HTML5 App
 =============
 
-![Build Status](https://magnum.travis-ci.com/fusioneng/gif2html5-app.svg?token=qjLxqTcR19p9TfqYJxuN&branch=master)
+[![Build Status](https://travis-ci.org/fusioneng/gif2html5-app.svg?branch=master)](https://travis-ci.org/fusioneng/gif2html5-app)
 
 GIF2HTML5 is a free and open source Python application to convert GIFs to MP4 videos and image keyframes. These files are automatically pushed to S3, and then reported to the CMS.
 
