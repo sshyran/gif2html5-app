@@ -46,7 +46,7 @@ class FlaskTestCase(TestContext):
 		self.assertRegexpMatches(data['mp4'], '\.mp4')
                 self.assertRegexpMatches(data['ogv'], '\.ogv')
                 self.assertRegexpMatches(data['webm'], '\.webm')
-		self.assertRegexpMatches(data['snapshot'], '\.png')
+	        self.assertRegexpMatches(data['snapshot'], '\.png')
 
 		file_to_delete = data['mp4'].split('/')[-1]
 

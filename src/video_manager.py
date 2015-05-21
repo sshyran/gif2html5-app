@@ -9,15 +9,16 @@ class VideoManager:
         filename = basename(gif_path)
         filename_without_ext = os.path.splitext(filename)[0]
 
-        list_of_files = dict([(codec, "%s.%s"  % (filename_without_ext, codec))for codec in ['mp4', 'ogv', 'webm']])
+        list_of_files = dict([(codec, "./tmp/%s.%s"  % (filename_without_ext, codec))for codec in ['mp4', 'ogv', 'webm']])
 
-        snapshot_file = "%s.png" % filename_without_ext
-        saving_snapshot_filename = "./tmp/%s" % snapshot_file
+        saving_snapshot_filename = "./tmp/%s.png" % filename_without_ext
 
         video = VideoFileClip(gif_path)
         video.save_frame(saving_snapshot_filename)
 
-        [video.write_videofile("./tmp/%s" % list_of_files.get(k)) for k in list_of_files.keys()]
-        list_of_files['snapshot'] = snapshot_file
+        for filename in list_of_files.values():
+            video.write_videofile(filename)
+
+        list_of_files['snapshot'] = saving_snapshot_filename
         
         return list_of_files

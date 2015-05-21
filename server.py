@@ -104,20 +104,7 @@ def convert():
     return 'Success', 200
 
 def upload_resources(result):
-    s3_path_to_mp4 = s3Manager.upload(result['mp4'], "./tmp/%s" % result['mp4'])
-    s3_path_to_webm = s3Manager.upload(result['webm'], "./tmp/%s" % result['webm'])
-    s3_path_to_ogv = s3Manager.upload(result['ogv'], "./tmp/%s" % result['ogv'])
-    s3_path_to_png = s3Manager.upload(result['snapshot'], "./tmp/%s" % result['snapshot'])
-
-    payload = {
-            'mp4': s3_path_to_mp4, 
-            'webm': s3_path_to_webm, 
-            'ogv': s3_path_to_ogv, 
-            'snapshot': s3_path_to_png
-            }
-
-    return payload
-
+    return {k: s3Manager.upload(os.path.basename(v), v) for k, v in result.iteritems()}
 
 def saving_to_local(url):
     response = urllib2.urlopen(url)
