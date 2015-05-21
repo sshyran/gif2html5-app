@@ -12,6 +12,9 @@ class S3Manager:
         self.conn = S3Connection(aws_access, aws_secret)
         self.fusion_mp4 = self.conn.get_bucket(self.bucket)
 
+    def get_bucket(self):
+        return self.fusion_mp4
+
     def upload(self, filename, filepath):
         k = Key(self.fusion_mp4)
         k.key = "%s/%s" % (self.folder, filename)

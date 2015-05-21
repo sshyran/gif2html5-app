@@ -19,8 +19,5 @@ class S3Tests(TestContext):
         expected_filepath = "https://s3.amazonaws.com/fusion-gif2html5-mp4-test/gif2html5/%s" % (random_filename)
         self.assertEquals(expected_filepath, s3_path)
 
-        self.s3Manager.delete(random_filename)
-
-
 if __name__ == '__main__':
     unittest.main()
