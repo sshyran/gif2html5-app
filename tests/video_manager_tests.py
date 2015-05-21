@@ -13,10 +13,10 @@ class VideoManagerTests(TestContext):
 
         result = self.videoManager.convert(test_gif_filepath)
 
-        self.assertRegexpMatches(result.mp4, 'test.mp4')
-        self.assertRegexpMatches(result.ogv, 'test.ogv')
-        self.assertRegexpMatches(result.webm, 'test.webm')
-        self.assertRegexpMatches(result.snapshot, 'test.png')
+        self.assertRegexpMatches(result['mp4'], 'test.mp4')
+        self.assertRegexpMatches(result['ogv'], 'test.ogv')
+        self.assertRegexpMatches(result['webm'], 'test.webm')
+        self.assertRegexpMatches(result['snapshot'], 'test.png')
 
 if __name__ == '__main__':
     unittest.main()

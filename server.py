@@ -104,10 +104,10 @@ def convert():
     return 'Success', 200
 
 def upload_resources(result):
-    s3_path_to_mp4 = s3Manager.upload(result.mp4, "./tmp/%s" % result.mp4)
-    s3_path_to_webm = s3Manager.upload(result.webm, "./tmp/%s" % result.webm)
-    s3_path_to_ogv = s3Manager.upload(result.ogv, "./tmp/%s" % result.ogv)
-    s3_path_to_png = s3Manager.upload(result.snapshot, "./tmp/%s" % result.snapshot)
+    s3_path_to_mp4 = s3Manager.upload(result['mp4'], "./tmp/%s" % result['mp4'])
+    s3_path_to_webm = s3Manager.upload(result['webm'], "./tmp/%s" % result['webm'])
+    s3_path_to_ogv = s3Manager.upload(result['ogv'], "./tmp/%s" % result['ogv'])
+    s3_path_to_png = s3Manager.upload(result['snapshot'], "./tmp/%s" % result['snapshot'])
 
     payload = {
             'mp4': s3_path_to_mp4, 

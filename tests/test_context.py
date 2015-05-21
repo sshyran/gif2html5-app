@@ -19,10 +19,15 @@ class TestContext(unittest.TestCase):
                 print e
 
     def delete_all_files_in_s3(self):
-        self.s3Manager = S3Manager(get_config())
+        s3Manager = S3Manager(get_config())
         
-        bucket = self.s3Manager.get_bucket()
+        bucket = s3Manager.get_bucket()
         bucketListResultSet = bucket.list()
         result = bucket.delete_keys([key.name for key in bucketListResultSet])
+
+    def get_s3_path(self):
+        config = get_config()
+        
+        return "https://%s.s3.amazonaws.com/%s" % (config.get('BUCKET'), config.get('FOLDER'))
 
 
