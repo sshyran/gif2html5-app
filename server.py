@@ -11,6 +11,7 @@ import logging
 import requests
 import sys
 import urlparse
+import tempfile
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
@@ -107,12 +108,13 @@ def upload_resources(result):
     return {k: s3Manager.upload(os.path.basename(v), v) for k, v in result.iteritems()}
 
 def saving_to_local(url):
+    tempdir = tempfile.gettempdir()
     response = urllib2.urlopen(url)
     contents = response.read()
 
     random_filename = binascii.b2a_hex(os.urandom(15))
 
-    gif_filepath = "./tmp/%s.gif" % (random_filename)
+    gif_filepath = "%s/%s.gif" % (tempdir, random_filename)
     f = open(gif_filepath, 'wb')
     f.write(contents)
     f.close()

@@ -3,13 +3,14 @@ from src.config_parser import get_config
 
 import os
 import unittest
+import tempfile
 
 class TestContext(unittest.TestCase):
 
     def tearDown(self):
         self.delete_all_files_in_s3()
         
-        folder = './tmp'
+        folder = tempfile.gettempdir()
         for the_file in os.listdir(folder):
             file_path = os.path.join(folder, the_file)
             try:

@@ -12,6 +12,6 @@ script: make test
 
 deploy:
   provider: heroku
-  app: gif2html5
+  app: gif2html5-staging
   skip_cleanup: true
   api_key: $HEROKU_API_KEY
