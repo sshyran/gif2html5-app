@@ -2,7 +2,6 @@ import sys
 import os
 import functools
 import json
-import datetime
 from ConfigParser import ConfigParser
 from StringIO import StringIO
 
