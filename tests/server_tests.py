@@ -37,14 +37,16 @@ class FlaskTestCase(TestContext):
 			'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif',
 			'api_key': '123456',
 		}
-
-		response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
-
-		self.assertEqual(response.status_code, 200)
-
-		data = json.loads(response.data)
-		self.assertRegexpMatches(data['mp4'], 'https://s3.amazonaws.com/fusion-gif2html5-mp4')
-		self.assertRegexpMatches(data['snapshot'], 'https://s3.amazonaws.com/fusion-gif2html5-mp4')
+                
+                response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
+                
+                self.assertEqual(response.status_code, 200)
+                
+                data = json.loads(response.data)
+                self.assertRegexpMatches(data['mp4'], '\.mp4')
+                self.assertRegexpMatches(data['ogv'], '\.ogv')
+                self.assertRegexpMatches(data['webm'], '\.webm')
+                self.assertRegexpMatches(data['snapshot'], '\.png')
 
 		file_to_delete = data['mp4'].split('/')[-1]
 
