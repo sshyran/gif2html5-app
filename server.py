@@ -11,9 +11,9 @@ import logging
 import requests
 import sys
 import urlparse
+import tempfile
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-
 
 def make_celery(app):
     celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
@@ -52,12 +52,11 @@ def convert_video(gif_url, webhook):
             gif_filepath = saving_to_local(gif_url)
             result = VideoManager().convert(gif_filepath)
 
-            s3_path_to_mp4 = s3Manager.upload(result.mp4, "./tmp/%s" % result.mp4)
-            s3_path_to_png = s3Manager.upload(result.snapshot, "./tmp/%s" % result.snapshot)
-
-            payload = {'mp4': s3_path_to_mp4, 'snapshot': s3_path_to_png, 'attachment_id': attachment_id}
-            logging.debug('Responding with payload: {}'.format(payload))
-            requests.post(webhook, data=payload)
+            resources = upload_resources(result)
+            resources['attachment_id'] = attachment_id
+            
+            logging.debug('Responding with payload: {}'.format(resources))
+            requests.post(webhook, data=resources)
             return
 
     logging.debug('Missing attachment_id')
@@ -97,20 +96,25 @@ def convert():
     else:
         gif_filepath = saving_to_local(url)
         result = VideoManager().convert(gif_filepath)
-        s3_path_to_mp4 = s3Manager.upload(result.mp4, "./tmp/%s" % result.mp4)
-        s3_path_to_png = s3Manager.upload(result.snapshot, "./tmp/%s" % result.snapshot)
-        logging.debug('MP4/PNG: {0}/{1}'.format(s3_path_to_mp4, s3_path_to_png))
-        return jsonify(mp4=s3_path_to_mp4, snapshot=s3_path_to_png), 200
+        resources = upload_resources(result)
+        
+        logging.debug('Responding with payload: {}'.format(resources))
+
+        return jsonify(resources), 200
 
     return 'Success', 200
 
+def upload_resources(result):
+    return {k: s3Manager.upload(os.path.basename(v), v) for k, v in result.iteritems()}
+
 def saving_to_local(url):
+    tempdir = tempfile.gettempdir()
     response = urllib2.urlopen(url)
     contents = response.read()
 
     random_filename = binascii.b2a_hex(os.urandom(15))
 
-    gif_filepath = "./tmp/%s.gif" % (random_filename)
+    gif_filepath = "%s/%s.gif" % (tempdir, random_filename)
     f = open(gif_filepath, 'wb')
     f.write(contents)
     f.close()
