@@ -1,5 +1,6 @@
 from src.s3_manager import S3Manager
 from src.config_parser import get_config
+from src.date_manager import get_current_date
 
 import os
 import unittest
@@ -29,6 +30,6 @@ class TestContext(unittest.TestCase):
     def get_s3_path(self):
         config = get_config()
         
-        return "https://%s.s3.amazonaws.com/%s" % (config.get('BUCKET'), config.get('FOLDER'))
+        return "https://%s.s3.amazonaws.com/%s/%s" % (config.get('BUCKET'), config.get('FOLDER'), get_current_date())
 
 

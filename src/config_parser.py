@@ -24,3 +24,5 @@ def get_config():
         config = os.environ
 
     return config
+
+

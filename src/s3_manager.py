@@ -1,3 +1,5 @@
+from src.date_manager import get_current_date
+
 import os
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
@@ -17,7 +19,7 @@ class S3Manager:
 
     def upload(self, filename, filepath):
         k = Key(self.fusion_bucket)
-        k.key = "%s/%s" % (self.folder, filename)
+        k.key = "%s/%s/%s" % (self.folder, get_current_date(), filename)
         k.set_contents_from_filename(filepath, policy='public-read')
 
         return k.generate_url(expires_in=0, query_auth=False)

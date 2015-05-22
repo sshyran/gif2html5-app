@@ -1,5 +1,6 @@
 from src.s3_manager import S3Manager
 from src.config_parser import get_config
+from src.date_manager import get_current_date
 from tests.test_context import TestContext
 
 import os,binascii
@@ -16,6 +17,7 @@ class S3Tests(TestContext):
         random_filename = binascii.b2a_hex(os.urandom(15))
 
         s3_path = self.s3Manager.upload(random_filename, filepath)
+        
         expected_filepath = "%s/%s" % (self.get_s3_path(), random_filename)
         self.assertEquals(expected_filepath, s3_path)
 
