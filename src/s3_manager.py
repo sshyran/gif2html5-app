@@ -22,6 +22,9 @@ class S3Manager:
         k.key = "%s/%s/%s" % (self.folder, get_current_date(), filename)
         k.set_contents_from_filename(filepath, policy='public-read')
 
+        ext = filename.split(os.extsep)[1]
+        k.set_metadata('Content-Type', 'video/%s' % (ext) )
+
         return k.generate_url(expires_in=0, query_auth=False)
 
     def delete(self, filename):
