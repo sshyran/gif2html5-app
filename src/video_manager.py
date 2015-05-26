@@ -19,7 +19,7 @@ class VideoManager:
         video.save_frame(saving_snapshot_filename)
 
         for filename in list_of_files.values():
-            video.write_videofile(filename)
+            video.write_videofile(filename, fps=15)
 
         list_of_files['snapshot'] = saving_snapshot_filename
         
