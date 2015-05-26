@@ -3,6 +3,7 @@ from moviepy.editor import *
 from src.s3_manager import S3Manager
 from src.config_parser import get_config
 from src.video_manager import VideoManager
+from lib.gfycat.gfycat import gfycat
 from celery import Celery
 import urllib2
 import os,binascii
@@ -12,6 +13,7 @@ import requests
 import sys
 import urlparse
 import tempfile
+
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
@@ -50,7 +52,7 @@ def convert_video(gif_url, webhook):
         if 'attachment_id' in queries:
             attachment_id = queries['attachment_id'][0]
             gif_filepath = saving_to_local(gif_url)
-            result = VideoManager().convert(gif_filepath)
+            result = VideoManager().convert(gif_filepath, gfycat())
 
             resources = upload_resources(result)
             resources['attachment_id'] = attachment_id
@@ -95,7 +97,7 @@ def convert():
         return 'Success', 200
     else:
         gif_filepath = saving_to_local(url)
-        result = VideoManager().convert(gif_filepath)
+        result = VideoManager().convert(gif_filepath, gfycat())
         resources = upload_resources(result)
         
         logging.debug('Responding with payload: {}'.format(resources))
