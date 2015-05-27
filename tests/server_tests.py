@@ -2,6 +2,7 @@ import os
 import server
 import unittest
 import tempfile
+import urllib
 from flask import json, jsonify
 from lib.gfycat.gfycat import gfycat
 from src.config_parser import get_config
@@ -78,13 +79,18 @@ class FlaskTestCase(TestContext):
 
 		self.assertEqual(response.status_code, 200)
 		server.convert_video.delay.assert_called_with(ANY, 'http://www.google.com')
-'''
+
 	def test_video_converter_task(self):
 		requests.post = MagicMock()
                 gcat = gfycat()
-                gcat.uploadFile = MagicMock()
+                gcat.uploadFile = MagicMock(return_value= {'webmUrl':'file.webm', 'mp4Url':'file.mp4'})
                 
-		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com?attachment_id=123')).get()
+                urllib.URLopener = MagicMock()
+                urllib.URLopener.retrieve = MagicMock()
+                
+                server.upload_resources = MagicMock(return_value = {})
+                
+		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com?attachment_id=123', gcat)).get()
 
 		payload = {'attachment_id' : '123'}
 
@@ -97,6 +103,6 @@ class FlaskTestCase(TestContext):
 		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com')).get()
 
 		requests.post.assert_called_with('http://www.google.com', data={'message' : 'It looks like you are missing attachment_id'})
-'''
+
 if __name__ == '__main__':
     unittest.main()
