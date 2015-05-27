@@ -23,7 +23,6 @@ class VideoManager:
         video.save_frame(saving_snapshot_filename)
 
         for filename in list_of_files.values():
-            print filename
             ext = filename.split(os.extsep)[1]
             if ext == 'ogv':
                 video.write_videofile(filename)
