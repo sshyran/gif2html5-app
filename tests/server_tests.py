@@ -39,11 +39,11 @@ class FlaskTestCase(TestContext):
 			'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif',
 			'api_key': '123456',
 		}
-                
+
                 response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
-                
+
                 self.assertEqual(response.status_code, 200)
-                
+
                 data = json.loads(response.data)
                 self.assertRegexpMatches(data['mp4'], '\.mp4')
                 self.assertRegexpMatches(data['ogv'], '\.ogv')
@@ -82,13 +82,13 @@ class FlaskTestCase(TestContext):
 
 	def test_video_converter_task(self):
 		requests.post = MagicMock()
-                gcat = gfycat()
-                gcat.uploadFile = MagicMock(return_value= {'webmUrl':'file.webm', 'mp4Url':'file.mp4'})
-                
-                urllib.URLopener = MagicMock()
-                urllib.URLopener.retrieve = MagicMock()
-                
-                server.upload_resources = MagicMock(return_value = {})
+		gcat = gfycat()
+		gcat.uploadFile = MagicMock(return_value= {'webmUrl':'file.webm', 'mp4Url':'file.mp4'})
+
+		urllib.URLopener = MagicMock()
+		urllib.URLopener.retrieve = MagicMock()
+
+		server.upload_resources = MagicMock(return_value = {})
 		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com?attachment_id=123', gcat)).get()
 
 		payload = {'attachment_id' : '123'}
