@@ -89,7 +89,6 @@ class FlaskTestCase(TestContext):
                 urllib.URLopener.retrieve = MagicMock()
                 
                 server.upload_resources = MagicMock(return_value = {})
-                
 		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com?attachment_id=123', gcat)).get()
 
 		payload = {'attachment_id' : '123'}
