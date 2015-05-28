@@ -1,11 +1,11 @@
 from src.video_manager import VideoManager
 from tests.test_context import TestContext
-from lib.gfycat.gfycat import gfycat
 
 from mock import MagicMock
 import urllib
 import unittest
 import os
+from gfycat.gfycat import gfycat
 
 class VideoManagerTests(TestContext):
     def setUp(self):

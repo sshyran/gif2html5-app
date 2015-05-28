@@ -4,12 +4,12 @@ import unittest
 import tempfile
 import urllib
 from flask import json, jsonify
-from lib.gfycat.gfycat import gfycat
 from src.config_parser import get_config
 from src.s3_manager import S3Manager
 from tests.test_context import TestContext
 from mock import MagicMock, ANY
 import requests
+from gfycat.gfycat import gfycat
 
 
 class JsonPayloadAttachmentIdMatcher(object):

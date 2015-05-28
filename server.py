@@ -3,7 +3,6 @@ from moviepy.editor import *
 from src.s3_manager import S3Manager
 from src.config_parser import get_config
 from src.video_manager import VideoManager
-from lib.gfycat.gfycat import gfycat
 from celery import Celery
 import urllib2
 import os,binascii
@@ -13,7 +12,7 @@ import requests
 import sys
 import urlparse
 import tempfile
-
+from gfycat.gfycat import gfycat
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
