@@ -14,8 +14,7 @@ class VideoManager:
         filename_without_ext = os.path.splitext(filename)[0]
         
         urlopener = urllib.URLopener()
-        gcat = gfycat()
-        converted_gif = gcat.uploadFile(gif_path)
+        converted_gif = gfycat().uploadFile(gif_path)
 
         list_of_files = dict([(codec, "%s/%s.%s"  % (tempdir, filename_without_ext, codec))for codec in ['mp4', 'ogv', 'webm']])
 
