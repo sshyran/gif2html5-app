@@ -40,7 +40,7 @@ app.config.update(
 celery = make_celery(app)
 
 @celery.task()
-def convert_video(gif_url, webhook, gfycat=gfycat()):
+def convert_video(gif_url, webhook):
     logging.debug('Converting video')
     parsed = urlparse.urlparse(webhook)
     logging.debug('Parsed webhook: {}'.format(parsed))
@@ -50,8 +50,8 @@ def convert_video(gif_url, webhook, gfycat=gfycat()):
         if 'attachment_id' in queries:
             attachment_id = queries['attachment_id'][0]
             gif_filepath = saving_to_local(gif_url)
-            result = VideoManager().convert(gif_filepath, gfycat)
-
+            result = VideoManager().convert(gif_filepath)
+            
             resources = upload_resources(result)
             resources['attachment_id'] = attachment_id
             logging.debug('Responding with payload: {}'.format(resources))
@@ -95,7 +95,7 @@ def convert():
         return 'Success', 200
     else:
         gif_filepath = saving_to_local(url)
-        result = VideoManager().convert(gif_filepath, gfycat())
+        result = VideoManager().convert(gif_filepath)
         resources = upload_resources(result)
         
         logging.debug('Responding with payload: {}'.format(resources))

@@ -4,16 +4,18 @@ import os, binascii
 import urllib
 import tempfile
 from os.path import basename
+from gfycat.gfycat import gfycat
 
 class VideoManager:
 
-    def convert(self, gif_path, gfycat):
+    def convert(self, gif_path):
         tempdir = tempfile.gettempdir()
         filename = basename(gif_path)
         filename_without_ext = os.path.splitext(filename)[0]
         
         urlopener = urllib.URLopener()
-        converted_gif = gfycat.uploadFile(gif_path)
+        gcat = gfycat()
+        converted_gif = gcat.uploadFile(gif_path)
 
         list_of_files = dict([(codec, "%s/%s.%s"  % (tempdir, filename_without_ext, codec))for codec in ['mp4', 'ogv', 'webm']])
 
