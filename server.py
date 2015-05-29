@@ -114,9 +114,9 @@ def saving_to_local(url):
     random_filename = binascii.b2a_hex(os.urandom(15))
 
     gif_filepath = "%s/%s.gif" % (tempdir, random_filename)
-    gif_file = open(gif_filepath, 'wb')
-    gif_file.write(contents)
-    gif_file.close()
+
+    with open(gif_filepath, 'wb') as gif_file:
+        gif_file.write(contents)
 
     return gif_filepath
 
