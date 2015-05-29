@@ -2,12 +2,14 @@ import os
 import server
 import unittest
 import tempfile
+import urllib
 from flask import json, jsonify
 from src.config_parser import get_config
 from src.s3_manager import S3Manager
 from tests.test_context import TestContext
-from mock import MagicMock, ANY
+from mock import MagicMock, ANY, patch
 import requests
+from gfycat.gfycat import gfycat
 
 
 class JsonPayloadAttachmentIdMatcher(object):
@@ -37,11 +39,11 @@ class FlaskTestCase(TestContext):
 			'url': 'http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif',
 			'api_key': '123456',
 		}
-                
+
                 response = self.app.post('/convert', data = json.dumps(payload), follow_redirects = True)
-                
+
                 self.assertEqual(response.status_code, 200)
-                
+
                 data = json.loads(response.data)
                 self.assertRegexpMatches(data['mp4'], '\.mp4')
                 self.assertRegexpMatches(data['ogv'], '\.ogv')
@@ -78,17 +80,21 @@ class FlaskTestCase(TestContext):
 		self.assertEqual(response.status_code, 200)
 		server.convert_video.delay.assert_called_with(ANY, 'http://www.google.com')
 
-	def test_video_converter_task(self):
-		requests.post = MagicMock()
+	@patch('src.video_manager.VideoManager.convert')
+	@patch('requests.post')
+	def test_video_converter_task(self, mock_video_manager, mock_requests):
+                mock_video_manager.return_value= {'webm':'file.webm', 'mp4':'file.mp4', 'ogv' : 'file.ogv', 'snapshot':'snapshot.png'}
+
+		server.upload_resources = MagicMock(return_value = {})
 		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com?attachment_id=123')).get()
 
 		payload = {'attachment_id' : '123'}
 
 		requests.post.assert_called_with('http://www.google.com?attachment_id=123', data=JsonPayloadAttachmentIdMatcher(payload))
 
-	def test_video_converter_task_without_attachment_id(self):
-		requests.post = MagicMock()
 
+	@patch('requests.post')
+	def test_video_converter_task_without_attachment_id(self, mock_requests):
 		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com')).get()
 
 		requests.post.assert_called_with('http://www.google.com', data={'message' : 'It looks like you are missing attachment_id'})

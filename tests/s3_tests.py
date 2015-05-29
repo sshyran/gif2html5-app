@@ -14,7 +14,7 @@ class S3Tests(TestContext):
     def test_convert_gif(self):
         filepath = "tests/resources/test.gif"
         f = open(filepath, 'r')
-        random_filename = binascii.b2a_hex(os.urandom(15))
+        random_filename = "%s.mp4" % binascii.b2a_hex(os.urandom(15)) 
 
         s3_path = self.s3Manager.upload(random_filename, filepath)
         

@@ -1,11 +1,10 @@
 from flask import Flask, request, jsonify
-from moviepy.editor import *
 from src.s3_manager import S3Manager
 from src.config_parser import get_config
 from src.video_manager import VideoManager
 from celery import Celery
 import urllib2
-import os,binascii
+import os, binascii
 import json
 import logging
 import requests
@@ -51,16 +50,16 @@ def convert_video(gif_url, webhook):
             attachment_id = queries['attachment_id'][0]
             gif_filepath = saving_to_local(gif_url)
             result = VideoManager().convert(gif_filepath)
-
+            
             resources = upload_resources(result)
             resources['attachment_id'] = attachment_id
-            
             logging.debug('Responding with payload: {}'.format(resources))
             requests.post(webhook, data=resources)
             return
 
     logging.debug('Missing attachment_id')
-    requests.post(webhook, data={'message' : 'It looks like you are missing attachment_id' })
+    requests.post(webhook, data={
+        'message' : 'It looks like you are missing attachment_id'})
 
 @app.route("/convert", methods=["POST"])
 def convert():
@@ -72,7 +71,7 @@ def convert():
 
     try:
         json_request = json.loads(request.data)
-    except ValueError, e:
+    except ValueError:
         logging.debug('Invalid JSON request')
         return 'JSON is not correct please check again', 406
 
@@ -115,9 +114,9 @@ def saving_to_local(url):
     random_filename = binascii.b2a_hex(os.urandom(15))
 
     gif_filepath = "%s/%s.gif" % (tempdir, random_filename)
-    f = open(gif_filepath, 'wb')
-    f.write(contents)
-    f.close()
+
+    with open(gif_filepath, 'wb') as gif_file:
+        gif_file.write(contents)
 
     return gif_filepath
 
