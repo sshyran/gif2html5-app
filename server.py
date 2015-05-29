@@ -11,7 +11,6 @@ import requests
 import sys
 import urlparse
 import tempfile
-from gfycat.gfycat import gfycat
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
