@@ -80,8 +80,8 @@ class FlaskTestCase(TestContext):
 		self.assertEqual(response.status_code, 200)
 		server.convert_video.delay.assert_called_with(ANY, 'http://www.google.com')
 
-        @patch('src.video_manager.VideoManager.convert')
-        @patch('requests.post')
+	@patch('src.video_manager.VideoManager.convert')
+	@patch('requests.post')
 	def test_video_converter_task(self, mock_video_manager, mock_requests):
                 mock_video_manager.return_value= {'webm':'file.webm', 'mp4':'file.mp4', 'ogv' : 'file.ogv', 'snapshot':'snapshot.png'}
 
@@ -92,7 +92,8 @@ class FlaskTestCase(TestContext):
 
 		requests.post.assert_called_with('http://www.google.com?attachment_id=123', data=JsonPayloadAttachmentIdMatcher(payload))
 
-        @patch('requests.post')
+
+	@patch('requests.post')
 	def test_video_converter_task_without_attachment_id(self, mock_requests):
 		server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com')).get()
 
