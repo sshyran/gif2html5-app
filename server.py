@@ -38,7 +38,7 @@ app.config.update(
 )
 celery = make_celery(app)
 
-@celery.task()
+@celery.task(bind=False, default_retry_delay=30)
 def convert_video(gif_url, webhook):
     logging.debug('Converting video')
     parsed = urlparse.urlparse(webhook)
@@ -47,15 +47,20 @@ def convert_video(gif_url, webhook):
     if parsed.query:
         queries = urlparse.parse_qs(parsed.query)
         if 'attachment_id' in queries:
-            attachment_id = queries['attachment_id'][0]
-            gif_filepath = saving_to_local(gif_url)
-            result = VideoManager().convert(gif_filepath)
+            try:
+                attachment_id = queries['attachment_id'][0]
+                gif_filepath = saving_to_local(gif_url)
+                result = VideoManager().convert(gif_filepath)
             
-            resources = upload_resources(result)
-            resources['attachment_id'] = attachment_id
-            logging.debug('Responding with payload: {}'.format(resources))
-            requests.post(webhook, data=resources)
-            return
+                resources = upload_resources(result)
+                resources['attachment_id'] = attachment_id
+                logging.debug('Responding with payload: {}'.format(resources))
+                requests.post(webhook, data=resources)
+                return
+            except Exception as exc:
+                convert_video.retry(exc=exc)
+                return
+
 
     logging.debug('Missing attachment_id')
     requests.post(webhook, data={
