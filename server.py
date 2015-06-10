@@ -58,6 +58,7 @@ def convert_video(gif_url, webhook):
                 requests.post(webhook, data=resources)
                 return
             except Exception as exc:
+                logging.debug('Retrying: Gif:{url} and Webhook:{webhook}'.format(url=gif_url, webhook=webhook));
                 convert_video.retry(exc=exc)
                 return
 
