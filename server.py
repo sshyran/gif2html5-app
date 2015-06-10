@@ -42,6 +42,7 @@ celery = make_celery(app)
 def convert_video(gif_url, webhook):
     logging.debug('Converting video')
     parsed = urlparse.urlparse(webhook)
+    logging.debug('Converting: {}'.format(gif_url))
     logging.debug('Parsed webhook: {}'.format(parsed))
 
     if parsed.query:
