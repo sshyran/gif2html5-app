@@ -9,7 +9,7 @@ GIF isn't intended as a looping video format, but most of the web uses it as suc
 
 ## Architecture
 
-Gif2HTML5 is Python application built on Flask. We've deployed it to Heroku but you can deploy it to your platform of choice.
+GIF2HTML5 is Python application built on Flask. We've deployed it to Heroku but you can deploy it to your platform of choice.
 
 If you use WordPress, we've [released a companion plugin](https://github.com/fusioneng/gif2html5-plugin/issues) to make it easy to integrate GIF2HTML5 in your WordPress theme.
 
