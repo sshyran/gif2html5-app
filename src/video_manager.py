@@ -28,6 +28,7 @@ class VideoManager:
             if ext == 'ogv':
                 video.write_videofile(filename)
             else:
+                
                 urlopener.retrieve(converted_gif.get("%sUrl" % (ext)), filename)
 
         list_of_files['snapshot'] = saving_snapshot_filename
