@@ -10,7 +10,8 @@ class S3Manager:
         aws_secret = config.get('AWS_SECRET_ACCESS_KEY')
         bucket = config.get('BUCKET')
         self.folder = config.get('FOLDER')
-        
+        self.cache_header = config.get('CACHE_HEADER')
+
         self.conn = S3Connection(aws_access, aws_secret)
         self.fusion_bucket = self.conn.get_bucket(bucket)
 
@@ -23,7 +24,13 @@ class S3Manager:
         k.set_contents_from_filename(filepath, policy='public-read')
 
         ext = filename.split(os.extsep)[1]
-        k.set_metadata('Content-Type', 'video/%s' % (ext) )
+        content_type = '%s/%s'
+        if ext == 'png':
+            content_type = content_type % ('image', ext)   
+        else:
+            content_type = content_type % ('video', ext)   
+
+        k.set_remote_metadata({'Cache-Control': self.cache_header, 'Content-Type': content_type}, {}, True)
 
         return k.generate_url(expires_in=0, query_auth=False)
 
