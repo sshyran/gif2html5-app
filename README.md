@@ -1,7 +1,7 @@
 GIF2HTML5 App
 =============
 
-![Build Status](https://magnum.travis-ci.com/fusioneng/gif2html5-app.svg?token=qjLxqTcR19p9TfqYJxuN&branch=master)
+[![Build Status](https://travis-ci.org/fusioneng/gif2html5-app.svg?branch=master)](https://travis-ci.org/fusioneng/gif2html5-app)
 
 GIF2HTML5 is a free and open source Python application to convert GIFs to MP4 videos and image keyframes. These files are automatically pushed to S3, and then reported to the CMS.
 
@@ -9,7 +9,7 @@ GIF isn't intended as a looping video format, but most of the web uses it as suc
 
 ## Architecture
 
-Gif2HTML5 is Python application built on Flask. We've deployed it to Heroku but you can deploy it to your platform of choice.
+GIF2HTML5 is Python application built on Flask. We've deployed it to Heroku but you can deploy it to your platform of choice.
 
 If you use WordPress, we've [released a companion plugin](https://github.com/fusioneng/gif2html5-plugin/issues) to make it easy to integrate GIF2HTML5 in your WordPress theme.
 
@@ -22,7 +22,7 @@ To run GIF2HTML5 locally, make sure you have the `pip` installed, the package ma
 pip install --requirement requirements.txt
 ```
 
-Python newbie? it's much easier to run Python applications inside of a virtual environment. With [virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/#introduction), it's as easy as `mkvirtualenv gif2html5` and `workon gif2html5`.
+Python newbie? It's much easier to run Python applications inside of a virtual environment. With [virtualenvwrapper](https://virtualenvwrapper.readthedocs.org/en/latest/#introduction), it's as easy as `mkvirtualenv gif2html5` and `workon gif2html5`.
 
 You'll need a number of environment variables present. Please put these in `.env`, using this as a template:
 
@@ -71,11 +71,11 @@ We've tried to make it as simple to use as possible, and encourage your construc
 curl -H "Content-Type: application/json" -d '{"url":"http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif", "api_key" : "$YOUR_API_KEY" }' http://localhost:5000/convert
 ```
 
-The gif will be downloaded, processed and uploaded to Amazon S3.
+The GIF will be downloaded, processed and uploaded to Amazon S3.
 
 ### Webhook
 
-If you want to convert the GIF asynchronously you can provide webhook endpoint in the JSON. The application will return right away and webhook will be called once the GIF is converted / uploaded to S3.
+If you want to convert the GIF asynchronously you can provide webhook endpoint in the JSON. The application will return right away and webhook will be called once the GIF is converted and uploaded to S3.
 
 ```shell
 curl -H "Content-Type: application/json" -d '{"url":"http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif", "webhook":"http://google.com", "api_key" : "$YOUR_API_KEY"}' http://localhost:5000/convert
