@@ -16,7 +16,7 @@ class VideoManagerTests(TestContext):
         self.assertRegexpMatches(result['mp4'], 'test.mp4')
         self.assertRegexpMatches(result['ogv'], 'test.ogv')
         self.assertRegexpMatches(result['webm'], 'test.webm')
-        self.assertRegexpMatches(result['snapshot'], 'test.png')
+        self.assertRegexpMatches(result['snapshot'], 'test.jpg')
 
 if __name__ == '__main__':
     unittest.main()
