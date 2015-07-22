@@ -4,8 +4,8 @@ import unittest
 import tempfile
 import urllib
 from flask import json, jsonify
-from src.config_parser import get_config
-from src.s3_manager import S3Manager
+from gif2html5.config_parser import get_config
+from gif2html5.s3_manager import S3Manager
 from tests.test_context import TestContext
 from mock import MagicMock, ANY, patch
 import requests

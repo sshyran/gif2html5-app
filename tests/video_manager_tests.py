@@ -1,9 +1,10 @@
-from src.video_manager import VideoManager
-from tests.test_context import TestContext
-
 from mock import MagicMock, patch
 import unittest
 import os
+
+from gif2html5.video_manager import VideoManager
+from tests.test_context import TestContext
+
 
 class VideoManagerTests(TestContext):
     def setUp(self):

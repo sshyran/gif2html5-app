@@ -2,10 +2,11 @@ from moviepy.editor import *
 from PIL import Image, ImageFile
 
 import os, binascii
-import urllib
+import urllib.request, urllib.parse, urllib.error
 import tempfile
 from os.path import basename
-from gfycat.gfycat import gfycat
+
+from gif2html5.gfycat import convert_gif
 
 class VideoManager:
 
@@ -14,8 +15,8 @@ class VideoManager:
         filename = basename(gif_path)
         filename_without_ext = os.path.splitext(filename)[0]
         
-        urlopener = urllib.URLopener()
-        converted_gif = gfycat().uploadFile(gif_path)
+        urlopener = urllib.request.URLopener()
+        converted_gif = convert_gif(gif_path)
 
         list_of_files = dict([(codec, "%s/%s.%s"  % (tempdir, filename_without_ext, codec))for codec in ['mp4', 'ogv', 'webm']])
 
@@ -26,13 +27,13 @@ class VideoManager:
         
         self._compress_image(saving_snapshot_filename)
         
-        for filename in list_of_files.values():
+        for filename in list(list_of_files.values()):
             ext = filename.split(os.extsep)[1]
             if ext == 'ogv':
                 video.write_videofile(filename)
             else:
-                
-                urlopener.retrieve(converted_gif.get("%sUrl" % (ext)), filename)
+                print(converted_gif) 
+                urlopener.retrieve(converted_gif.get(ext), filename)
 
         list_of_files['snapshot'] = saving_snapshot_filename
         

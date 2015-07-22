@@ -1,6 +1,6 @@
-from src.s3_manager import S3Manager
-from src.config_parser import get_config
-from src.date_manager import get_current_date
+from gif2html5.s3_manager import S3Manager
+from gif2html5.config_parser import get_config
+from gif2html5.date_manager import get_current_date
 from tests.test_context import TestContext
 
 import os,binascii
