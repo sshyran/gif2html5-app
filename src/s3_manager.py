@@ -1,4 +1,5 @@
 from src.date_manager import get_current_date
+import mimetypes
 
 import os
 from boto.s3.connection import S3Connection
@@ -22,14 +23,8 @@ class S3Manager:
         k = Key(self.fusion_bucket)
         k.key = "%s/%s/%s" % (self.folder, get_current_date(), filename)
         k.set_contents_from_filename(filepath, policy='public-read')
-
-        ext = filename.split(os.extsep)[1]
-        content_type = '%s/%s'
-        if ext == 'png':
-            content_type = content_type % ('image', ext)   
-        else:
-            content_type = content_type % ('video', ext)   
-
+        
+        content_type = mimetypes.guess_type(filename)[0]
         k.set_remote_metadata({'Cache-Control': self.cache_header, 'Content-Type': content_type}, {}, True)
 
         return k.generate_url(expires_in=0, query_auth=False)
