@@ -2,8 +2,8 @@ import sys
 import os
 import functools
 import json
-from ConfigParser import ConfigParser
-from StringIO import StringIO
+from configparser import ConfigParser
+from io import StringIO
 
 def parse_config(raw):
     config = _config = ConfigParser(defaults={
