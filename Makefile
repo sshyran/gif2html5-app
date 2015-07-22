@@ -1,5 +1,5 @@
 test:
-	py.test tests/*.py
+	py.test tests
 
 run:
 	foreman start
