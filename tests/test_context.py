@@ -30,6 +30,6 @@ class TestContext(unittest.TestCase):
     def get_s3_path(self):
         config = get_config()
         
-        return "https://%s.s3.amazonaws.com/%s/%s" % (config.get('BUCKET'), config.get('FOLDER'), get_current_date())
+        return "https://%s.s3.amazonaws.com:443/%s/%s" % (config.get('BUCKET'), config.get('FOLDER'), get_current_date())
 
 

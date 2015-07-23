@@ -1,26 +1,33 @@
+import urllib.request, urllib.error, urllib.parse
+import os, uuid, tempfile
+
+from os.path import basename
 from moviepy.editor import *
 from PIL import Image, ImageFile
 
-import os, binascii
-import urllib.request, urllib.parse, urllib.error
-import tempfile
-from os.path import basename
-
 from gif2html5.gfycat import convert_gif
+
 
 class VideoManager:
 
-    def convert(self, gif_path):
+    def convert(self, gif_url):
+        codecs = ['mp4', 'ogv', 'webm']
+
+        try:
+            gif_path = self._save_to_local(gif_url)
+        except Exception:
+            raise Exception('This is not a gif')
+        
         tempdir = tempfile.gettempdir()
-        filename = basename(gif_path)
-        filename_without_ext = os.path.splitext(filename)[0]
+        f = basename(gif_path)
+        f_without_ext = os.path.splitext(f)[0]
         
         urlopener = urllib.request.URLopener()
-        converted_gif = convert_gif(gif_path)
+        converted_gif = convert_gif(gif_url)
+        
+        list_of_files = dict([(codec, "%s/%s.%s"  % (tempdir, f_without_ext, codec))for codec in codecs])
 
-        list_of_files = dict([(codec, "%s/%s.%s"  % (tempdir, filename_without_ext, codec))for codec in ['mp4', 'ogv', 'webm']])
-
-        saving_snapshot_filename = "%s/%s.jpg" % (tempdir, filename_without_ext)
+        saving_snapshot_filename = "%s/%s.jpg" % (tempdir, f_without_ext)
 
         video = VideoFileClip(gif_path)
         video.save_frame(saving_snapshot_filename)
@@ -32,8 +39,7 @@ class VideoManager:
             if ext == 'ogv':
                 video.write_videofile(filename)
             else:
-                print(converted_gif) 
-                urlopener.retrieve(converted_gif.get(ext), filename)
+                urlopener.retrieve(converted_gif[ext], filename)
 
         list_of_files['snapshot'] = saving_snapshot_filename
         
@@ -52,4 +58,24 @@ class VideoManager:
                 
             # The 'quality' option is ignored for PNG files
             img.save(snapshot, quality=90, optimize=True)
+
+    
+    def _save_to_local(self, url):
+        tempdir = tempfile.gettempdir()
+        response = urllib.request.urlopen(url)
+        content_type = response.headers['content-type']
+        
+        if content_type == 'image/gif':
+            contents = response.read()
+
+            gif_filepath = "%s/%s.gif" % (tempdir, uuid.uuid1())
+        
+            with open(gif_filepath, 'wb') as gif_file:
+                gif_file.write(contents)
+
+            return gif_filepath
+
+        raise Exception
+
+
         

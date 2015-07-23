@@ -19,6 +19,5 @@ redis==2.10.3
 requests
 tqdm==1.0
 Werkzeug==0.10.1
-git+git://github.com/nim901/gfycat.git#egg=gfycat
 pytest
 Pillow
