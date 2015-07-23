@@ -1,5 +1,5 @@
 test:
-	nosetests
+	py.test tests
 
 run:
 	foreman start
