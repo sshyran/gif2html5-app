@@ -11,21 +11,10 @@ import tempfile
 from gif2html5.s3_manager import S3Manager
 from gif2html5.config_parser import get_config
 from gif2html5.video_manager import VideoManager
+from gif2html5.celery import make_celery
 
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-
-def make_celery(app):
-    celery = Celery(app.import_name, broker=app.config['CELERY_BROKER_URL'])
-    celery.conf.update(app.config)
-    TaskBase = celery.Task
-    class ContextTask(TaskBase):
-        abstract = True
-        def __call__(self, *args, **kwargs):
-            with app.app_context():
-                return TaskBase.__call__(self, *args, **kwargs)
-    celery.Task = ContextTask
-    return celery
 
 config = get_config()
 s3Manager = S3Manager(config)
