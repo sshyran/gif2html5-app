@@ -23,7 +23,7 @@ def convert(gif_url):
     
     list_of_files = dict([(codec, "%s/%s.%s"  % (tempdir, f_without_ext, codec))for codec in codecs])
 
-    saving_snapshot_filename = "%s/%s.jpg" % (tempdir, f_without_ext)
+    saving_snapshot_filename = os.path.join(tempdir, "%s.jpg" % f_without_ext)
 
     video = VideoFileClip(gif_path)
     video.save_frame(saving_snapshot_filename)
@@ -32,10 +32,10 @@ def convert(gif_url):
     
     for filename in list(list_of_files.values()):
         ext = filename.split(os.extsep)[1]
-        if ext == 'ogv':
-            video.write_videofile(filename)
-        else:
+        if ext in converted_gif:
             urlopener.retrieve(converted_gif[ext], filename)
+        else:
+            video.write_videofile(filename)
 
     list_of_files['snapshot'] = saving_snapshot_filename
     
@@ -64,7 +64,7 @@ def save_to_local(url):
     if content_type == 'image/gif':
         contents = response.read()
 
-        gif_filepath = "%s/%s.gif" % (tempdir, uuid.uuid1())
+        gif_filepath = os.path.join(tempdir, "%s.gif" % uuid.uuid1())
     
         with open(gif_filepath, 'wb') as gif_file:
             gif_file.write(contents)
