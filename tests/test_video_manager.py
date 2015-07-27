@@ -5,6 +5,7 @@ from mock import MagicMock, patch
 from unittest.mock import patch
 
 from gif2html5.video_manager import convert
+from gif2html5.exceptions.bad_content_type import BadContentType
 from tests.test_context import TestContext
 
 
@@ -23,7 +24,7 @@ class VideoManagerTests(TestContext):
 
     def test_bad_url_to_convert_video(self):
         gif_url = 'http://www.google.com'
-        self.assertRaises(Exception, lambda: convert(gif_url))
+        self.assertRaises(BadContentType, lambda: convert(gif_url))
         
 
 if __name__ == '__main__':

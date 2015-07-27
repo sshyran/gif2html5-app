@@ -6,15 +6,13 @@ from moviepy.editor import *
 from PIL import Image, ImageFile
 
 from gif2html5.gfycat import convert_gif
+from gif2html5.exceptions.bad_content_type import BadContentType
 
 
 def convert(gif_url):
     codecs = ['mp4', 'ogv', 'webm']
 
-    try:
-        gif_path = save_to_local(gif_url)
-    except Exception:
-        raise Exception('This is not a gif')
+    gif_path = save_to_local(gif_url)
     
     tempdir = tempfile.gettempdir()
     f = basename(gif_path)
@@ -73,7 +71,7 @@ def save_to_local(url):
 
         return gif_filepath
 
-    raise Exception
+    raise BadContentType('%s : is not a gif so it cannot be converted' % url)
 
 
         
