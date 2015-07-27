@@ -1,5 +1,5 @@
 import urllib.request, urllib.error, urllib.parse
-import os, uuid, tempfile
+import os, uuid, tempfile, logging
 
 from os.path import basename
 from moviepy.editor import *
@@ -8,6 +8,7 @@ from PIL import Image, ImageFile
 from gif2html5.gfycat import convert_gif
 from gif2html5.exceptions.bad_content_type import BadContentType
 
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 def convert(gif_url):
     codecs = ['mp4', 'ogv', 'webm']
@@ -41,6 +42,7 @@ def convert(gif_url):
     
     return list_of_files
 
+
 def compress_image(snapshot):
     with open(snapshot, 'rb') as file:
         img = Image.open(file)
@@ -71,6 +73,7 @@ def save_to_local(url):
 
         return gif_filepath
 
+    logging.debug('%s is not a gif' % url)
     raise BadContentType('%s : is not a gif so it cannot be converted' % url)
 
 
