@@ -10,7 +10,7 @@ import tempfile
 
 from gif2html5.s3_manager import S3Manager
 from gif2html5.config_parser import get_config
-from gif2html5.video_manager import VideoManager
+from gif2html5.video_manager import convert as convert_gif
 from gif2html5.celery import make_celery
 
 
@@ -40,7 +40,7 @@ def convert_video(gif_url, webhook):
         if 'attachment_id' in queries:
             try:
                 attachment_id = queries['attachment_id'][0]
-                result = VideoManager().convert(gif_url)
+                result = convert_gif(gif_url)
             
                 resources = upload_resources(result)
                 resources['attachment_id'] = attachment_id
@@ -89,7 +89,7 @@ def convert():
         result = convert_video.delay(url, webhook)
         return 'Success', 200
     else:
-        result = VideoManager().convert(url)
+        result = convert_gif(url)
         resources = upload_resources(result)
         
         logging.debug('Responding with payload: {}'.format(resources))

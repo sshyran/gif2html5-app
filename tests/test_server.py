@@ -75,10 +75,10 @@ class FlaskTestCase(TestContext):
         self.assertEqual(response.status_code, 200)
         server.convert_video.delay.assert_called_with(ANY, 'http://www.google.com')
 
-    @patch('gif2html5.video_manager.VideoManager.convert')
+    @patch('gif2html5.video_manager.convert')
     @patch('requests.post')
     def test_retry_failed_task(self, mock_video_manager, mock_requests):
-        mock_video_manager.return_value= {'webm':'file.webm', 'mp4':'file.mp4', 'ogv' : 'file.ogv', 'snapshot':'snapshot.png'}
+        mock_video_manager.return_value = {'webm':'file.webm', 'mp4':'file.mp4', 'ogv' : 'file.ogv', 'snapshot':'snapshot.png'}
         error = Exception('some error')
         mock_video_manager.side_effect = error
         server.convert_video.retry = MagicMock()
@@ -87,10 +87,10 @@ class FlaskTestCase(TestContext):
         server.convert_video.retry.assert_called_with(exc=error)
 
 
-    @patch('gif2html5.video_manager.VideoManager.convert')
+    @patch('gif2html5.video_manager.convert')
     @patch('requests.post')
     def test_video_converter_task(self, mock_video_manager, mock_requests):
-        mock_video_manager.return_value= {'webm':'file.webm', 'mp4':'file.mp4', 'ogv' : 'file.ogv', 'snapshot':'snapshot.png'}
+        mock_video_manager.return_value = {'webm':'file.webm', 'mp4':'file.mp4', 'ogv' : 'file.ogv', 'snapshot':'snapshot.png'}
 
         server.upload_resources = MagicMock(return_value = {})
         server.convert_video.apply(args=('http://media.giphy.com/media/WSqcqvTxgwfYs/giphy.gif', 'http://www.google.com?attachment_id=123')).get()
