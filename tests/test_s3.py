@@ -1,11 +1,11 @@
-from src.s3_manager import S3Manager
-from src.config_parser import get_config
-from src.date_manager import get_current_date
+import os, uuid
+import unittest
+
+from gif2html5.s3_manager import S3Manager
+from gif2html5.config_parser import get_config
+from gif2html5.date_manager import get_current_date
 from tests.test_context import TestContext
 
-import os,binascii
-import unittest
-import os
 
 class S3Tests(TestContext):
     def setUp(self):
@@ -13,8 +13,7 @@ class S3Tests(TestContext):
 
     def test_convert_gif(self):
         filepath = "tests/resources/test.gif"
-        f = open(filepath, 'r')
-        random_filename = "%s.mp4" % binascii.b2a_hex(os.urandom(15)) 
+        random_filename = "%s.mp4" % uuid.uuid1()
 
         s3_path = self.s3Manager.upload(random_filename, filepath)
         
