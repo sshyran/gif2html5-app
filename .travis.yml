@@ -10,7 +10,7 @@ env:
   - REDISTOGO_URL=redis://localhost:6379
 
 install: pip install -r requirements.txt
-script: make lint && make test
+script: make build
 
 deploy:
   provider: heroku
