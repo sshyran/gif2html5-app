@@ -13,6 +13,7 @@ from PIL import Image, ImageFile
 
 from gif2html5.gfycat import convert_gif
 from gif2html5.exceptions.bad_content_type import BadContentType
+from gif2html5.exceptions.not_convertible import NotConvertible
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
@@ -30,10 +31,12 @@ def convert(gif_url):
     converted_gif = convert_gif(gif_url)
 
     if converted_gif is None:
-        raise Exception('%s is not convertable' % gif_url)
+        raise NotConvertible('%s is not convertible' % gif_url)
 
-    list_of_files = dict([(codec, "%s/%s.%s" % (tempdir, f_without_ext, codec)) for codec in codecs])
-
+    list_of_files = {
+        codec: "%s/%s.%s" % (tempdir, f_without_ext, codec)
+        for codec in codecs
+    }
     saving_snapshot_filename = os.path.join(tempdir, "%s.jpg" % f_without_ext)
 
     video = VideoFileClip(gif_path)

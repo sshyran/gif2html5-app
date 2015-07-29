@@ -1,7 +1,7 @@
 import unittest
 import urllib.error
 
-from mock import patch
+from unittest.mock import patch
 
 from gif2html5.video_manager import convert
 from gif2html5.exceptions.bad_content_type import BadContentType
