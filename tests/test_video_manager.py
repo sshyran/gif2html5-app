@@ -1,4 +1,5 @@
 import unittest
+import urllib.error
 
 from mock import patch
 
@@ -23,6 +24,10 @@ class VideoManagerTests(TestContext):
     def test_bad_url_to_convert_video(self):
         gif_url = 'http://www.google.com'
         self.assertRaises(BadContentType, lambda: convert(gif_url))
+
+    def test_invalid_url(self):
+        gif_url = 'http://www.goo.c'
+        self.assertRaises(urllib.error.URLError, lambda: convert(gif_url))
 
 
 if __name__ == '__main__':

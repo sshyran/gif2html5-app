@@ -29,6 +29,9 @@ def convert(gif_url):
     urlopener = urllib.request.URLopener()
     converted_gif = convert_gif(gif_url)
 
+    if converted_gif is None:
+        raise Exception('%s is not convertable' % gif_url)
+
     list_of_files = dict([(codec, "%s/%s.%s" % (tempdir, f_without_ext, codec)) for codec in codecs])
 
     saving_snapshot_filename = os.path.join(tempdir, "%s.jpg" % f_without_ext)
@@ -68,6 +71,7 @@ def compress_image(snapshot):
 def save_to_local(url):
     tempdir = tempfile.gettempdir()
     response = urllib.request.urlopen(url)
+
     content_type = response.headers['content-type']
 
     if content_type == 'image/gif':

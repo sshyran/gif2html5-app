@@ -15,6 +15,7 @@ from gif2html5.celery import make_celery
 
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.getLogger('boto').setLevel(logging.CRITICAL)
 
 config = get_config()
 s3Manager = S3Manager(config)
