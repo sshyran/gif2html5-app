@@ -28,4 +28,3 @@ class GfycatTests(unittest.TestCase):
         expected_webm = 'http://zippy.gfycat.com/InfamousVillainousDore.webm'
         self.assertEquals(expected_mp4, response['mp4'])
         self.assertEquals(expected_webm, response['webm'])
-

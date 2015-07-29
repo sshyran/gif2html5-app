@@ -1,12 +1,11 @@
-import sys
 import os
 import functools
-import json
 from configparser import ConfigParser
 from io import StringIO
 
+
 def parse_config(raw):
-    config = _config = ConfigParser(defaults={
+    config = ConfigParser(defaults={
         'GIF2HTML5_API_KEY': None,
     })
     if raw.strip().startswith('['):
@@ -16,6 +15,7 @@ def parse_config(raw):
         config.get = functools.partial(config.get, 'environment')
     return config
 
+
 def get_config():
     if os.path.isfile('.env'):
         raw_config = open('.env').read()
@@ -24,5 +24,3 @@ def get_config():
         config = os.environ
 
     return config
-
-

@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify
-from celery import Celery
-import urllib.request, urllib.error, urllib.parse
-import os, binascii
+import urllib.request
+import urllib.error
+import urllib.parse
+import os
 import json
 import logging
 import requests
 import sys
-import tempfile
 
 from gif2html5.s3_manager import S3Manager
 from gif2html5.config_parser import get_config
@@ -28,6 +28,7 @@ app.config.update(
 )
 celery = make_celery(app)
 
+
 @celery.task(bind=False, default_retry_delay=30)
 def convert_video(gif_url, webhook):
     logging.debug('Converting video')
@@ -41,21 +42,21 @@ def convert_video(gif_url, webhook):
             try:
                 attachment_id = queries['attachment_id'][0]
                 result = convert_gif(gif_url)
-            
+
                 resources = upload_resources(result)
                 resources['attachment_id'] = attachment_id
                 logging.debug('Responding with payload: {}'.format(resources))
                 requests.post(webhook, data=resources)
                 return
             except Exception as exc:
-                logging.debug('Retrying: Gif:{url} and Webhook:{webhook}'.format(url=gif_url, webhook=webhook));
+                logging.debug('Retrying: Gif:{url} and Webhook:{webhook}'.format(url=gif_url, webhook=webhook))
                 convert_video.retry(exc=exc)
                 return
 
-
     logging.debug('Missing attachment_id')
     requests.post(webhook, data={
-        'message' : 'It looks like you are missing attachment_id'})
+        'message': 'It looks like you are missing attachment_id'})
+
 
 @app.route("/convert", methods=["POST"])
 def convert():
@@ -91,12 +92,13 @@ def convert():
     else:
         result = convert_gif(url)
         resources = upload_resources(result)
-        
+
         logging.debug('Responding with payload: {}'.format(resources))
 
         return jsonify(resources), 200
 
     return 'Success', 200
+
 
 def upload_resources(result):
     return {k: s3Manager.upload(os.path.basename(v), v) for k, v in result.items()}

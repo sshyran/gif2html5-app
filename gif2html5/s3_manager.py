@@ -1,5 +1,4 @@
 import mimetypes
-import os
 from boto.s3.connection import S3Connection
 from boto.s3.key import Key
 
@@ -24,7 +23,7 @@ class S3Manager:
         k = Key(self.fusion_bucket)
         k.key = "%s/%s/%s" % (self.folder, get_current_date(), filename)
         k.set_contents_from_filename(filepath, policy='public-read')
-        
+
         content_type = mimetypes.guess_type(filename)[0]
         k.set_remote_metadata({'Cache-Control': self.cache_header, 'Content-Type': content_type}, {}, True)
 
