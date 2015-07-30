@@ -12,8 +12,8 @@ from moviepy.editor import *
 from PIL import Image, ImageFile
 
 from gif2html5.gfycat import convert_gif
-from gif2html5.exceptions.bad_content_type import BadContentType
-from gif2html5.exceptions.not_convertible import NotConvertible
+from gif2html5.exceptions import BadContentTypeException
+from gif2html5.exceptions import NotConvertibleException
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
@@ -31,7 +31,7 @@ def convert(gif_url):
     converted_gif = convert_gif(gif_url)
 
     if converted_gif is None:
-        raise NotConvertible('%s is not convertible' % gif_url)
+        raise NotConvertibleException('%s is not convertible' % gif_url)
 
     list_of_files = {
         codec: "%s/%s.%s" % (tempdir, f_without_ext, codec)
@@ -88,4 +88,4 @@ def save_to_local(url):
         return gif_filepath
 
     logging.debug('%s is not a gif' % url)
-    raise BadContentType('%s : is not a gif so it cannot be converted' % url)
+    raise BadContentTypeException('%s : is not a gif so it cannot be converted' % url)

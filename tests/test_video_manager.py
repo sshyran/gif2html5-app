@@ -4,7 +4,7 @@ import urllib.error
 from unittest.mock import patch
 
 from gif2html5.video_manager import convert
-from gif2html5.exceptions.bad_content_type import BadContentType
+from gif2html5.exceptions import BadContentTypeException
 from tests.test_context import TestContext
 
 
@@ -23,7 +23,7 @@ class VideoManagerTests(TestContext):
 
     def test_bad_url_to_convert_video(self):
         gif_url = 'http://www.google.com'
-        self.assertRaises(BadContentType, lambda: convert(gif_url))
+        self.assertRaises(BadContentTypeException, lambda: convert(gif_url))
 
     def test_invalid_url(self):
         gif_url = 'http://www.goo.c'
