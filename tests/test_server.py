@@ -2,7 +2,7 @@ import server
 import unittest
 import requests
 
-from mock import MagicMock, ANY, patch
+from unittest.mock import MagicMock, ANY, patch
 from flask import json
 
 from gif2html5.config_parser import get_config

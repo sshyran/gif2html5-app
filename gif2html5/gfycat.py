@@ -20,6 +20,9 @@ def convert_gif(gif_url):
     if not all(k in data for k in ['mp4Url', 'webmUrl']):
         return None
 
+    if not all({k: v for k, v in data.items() if k in ['mp4Url', 'webmUrl']}.values()):
+        return None
+
     mp4 = data['mp4Url']
     webm = data['webmUrl']
 
