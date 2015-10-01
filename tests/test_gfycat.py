@@ -46,3 +46,12 @@ class GfycatTests(unittest.TestCase):
 
         response = convert_gif(self.test_gif)
         self.assertEquals(response, None)
+
+    @patch('requests.get')
+    def test_one_of_the_url_is_none(self, mock_request):
+        returned_json = {'mp4Url': None, 'webmUrl': 'url'}
+        mock_request.return_value = mock_response = Mock()
+        mock_response.json.return_value = returned_json
+
+        response = convert_gif(self.test_gif)
+        self.assertEquals(response, None)
