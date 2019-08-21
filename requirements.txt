@@ -4,7 +4,7 @@ billiard==3.3.0.19
 boto==2.36.0
 celery==3.1.17
 decorator==3.4.0
-Flask==1.0
+Flask==1.1.1
 gunicorn==19.5.0
 imageio==1.1
 itsdangerous==0.24
