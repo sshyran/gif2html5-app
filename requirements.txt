@@ -12,7 +12,7 @@ Jinja2==2.7.3
 kombu==3.0.24
 MarkupSafe==0.23
 moviepy==0.2.2.8
-numpy==1.9.1
+numpy==1.21.0
 pytz==2014.10
 redis==2.10.3
 requests==2.20.0
